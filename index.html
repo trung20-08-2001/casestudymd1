@@ -29,6 +29,14 @@
             border-radius: 50%
         }
 
+        #exit {
+            font-size: 20px;
+            color: darkorange;
+            width: 80px;
+            height: 70px;
+            border-radius: 50%
+        }
+
         #time {
             color: #2b88d8
         }
@@ -37,23 +45,25 @@
             color: #2b88d8
         }
 
-        table {
+        #table2 {
             position: absolute;
-            z-index: 2;
+            z-index: 1;
             left: 490px;
             border-collapse: collapse;
             background: lightgrey;
             border: 2px solid orange;
-            display: none;
-
+            border-spacing: 1px;
         }
 
-        th {
+        #th {
             font-weight: bold;
             font-style: italic;
             text-decoration: underline;
             font-size: 25px;
             color: darkorange;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         button {
@@ -66,16 +76,77 @@
             padding-left: 2px;
         }
 
+        #canvas3 {
+            position: absolute;
+            z-index: 0;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-style: italic;
+            text-decoration: underline;
+            font-size: 50px;
+            color: darkorange;
+        }
+
+        select {
+            font-weight: bold;
+            font-style: italic;
+            font-size: 20px;
+            color: darkorange;
+            width: 200px;
+        }
+
+        strong {
+            font-weight: bold;
+            font-style: italic;
+            font-size: 20px;
+            color: darkorange;
+        }
+
+        button {
+            font-weight: bold;
+            font-style: italic;
+            font-size: 20px;
+            color: darkorange;
+        }
+
+        #div1 {
+            text-align: center;
+            display: block
+        }
     </style>
 </head>
-<canvas id="canvas" style="position: absolute;z-index: 0;display: block" width="1536px" height="745px"></canvas>
-<table id="table">
-    <th colspan="4">GHÉP HÌNH</th>
-    <tr>
-        <td colspan="2">
+<body>
+<div id="div1">
+    <h1>GHÉP HÌNH</h1>
+    <strong>Chọn level</strong><br><br>
+    <select id="level">
+        <option>Level 1</option>
+        <option>Level 2</option>
+        <option>Level 3</option>
+    </select><br><br>
+    <input class="chooseImage" name="Choose image" type="radio" value="default" checked><strong>Dùng ảnh mặc
+    định</strong><br><br>
+    <input class="chooseImage" name="Choose image" type="radio" value="change" id="youImage"
+           onclick="openFile()"><strong onclick="openFile()">Chọn
+    ảnh của bạn</strong>
+    <input id="chooseImage" accept="image/png, image/jpeg" type="file" style="display:none"><br><br>
+    <button onclick="play()">PLAY</button>
+    <br><br>
+    <canvas id="canvas"></canvas>
+    <canvas id="canvas2"></canvas>
+</div>
+<div id="div2" style="display: none">
+    <canvas id="canvas3" style="position: absolute;z-index: 0;display: block" width="1380px" height="630px"></canvas>
+    <div id="table2">
+        <p id="th">GHÉP HÌNH</p>
+        <div>
             <ul class="button">
                 <li>
-                    <button onclick="play()" id="play">Play</button>
+                    <button onclick="play()" id="play">Start</button>
+                    <p style="color: #2b88d8">Time: <span id="time"></span></p>
+                    <p style="color: #2b88d8">Count: <span id="count"></span></p>
                 </li>
                 <li>
                     <button onclick="music()" id="music">Music<span style="display: none"
@@ -84,23 +155,17 @@
                 <li>
                     <button onclick="dung()" id="pause">Pause<span style="display: none" id="displaypause">&#9658</span>
                     </button>
+                    <button id="exit" onclick="exit()">Exit</button>
+                </li>
+                <li>
+                    <canvas id="canvas4" height="160" width="170"></canvas>
                 </li>
             </ul>
-            <br>
-            <p style="color: #2b88d8">Time: <span id="time"></span></p>
-            <p style="color: #2b88d8">Count: <span id="count"></span></p>
-        </td>
-        <td rowspan="2" colspan="2">
-            <img src="img/anh-kt-sua.jpg" height="170" width="240">
-        </td>
-    </tr>
-    <tr>
-        <td><br></td>
-    </tr>
-
-    <tbody id="display">
-    </tbody>
-</table>
+        </div>
+        <table id="display">
+        </table>
+    </div>
+</div>
 <audio id="moveimage">
     <source src="mp3/move-image.mp3">
 </audio>
@@ -112,488 +177,4 @@
 </audio>
 </body>
 </html>
-<script>
-    let img1 = "img/img-1.png";
-    let img2 = "img/img-2.png";
-    let img3 = "img/img-3.png";
-    let img4 = "img/img-4.png";
-    let img5 = "img/img-5.png";
-    let img6 = "img/img-6.png";
-    let img7 = "img/img-7.png";
-    let img8 = "img/img-8.png";
-    let img9 = "img/img-9.png";
-    let img10 = "img/img-10.png";
-    let img11 = "img/img-11.png";
-    let img12 = "img/img-12.png";
-    let img13 = "img/img-13.png";
-    let img14 = "img/img-14.png";
-    let img15 = "img/img-15.png";
-    let img16 = "img/img-16.png";
-    let arr1 = [[img1, img2, img3, img4], [img5, img6, img7, img8], [img9, img10, img11, img12], [img13, img14, img15, ""]];
-    let arr2 = [[img1, img2, img3, img4], [img5, img6, img7, img8], [img9, img10, img11, img12], [img13, img14, img15, img16]];
-
-
-
-    let moveimage = document.getElementById("moveimage");
-    let displaypause = document.getElementById("displaypause");
-    let displaymusic = document.getElementById("displaymusic");
-    let amthanhwin = document.getElementById("amthanhwin");
-    let amthanhnen = document.getElementById("amthanhnen");
-    let table = document.getElementById("table");
-    let button_pause = document.getElementById("pause");
-    let canvas = document.getElementById("canvas");
-    let ctx = canvas.getContext("2d");
-    let flatarr1 = arr1.flat();
-    let mixpieces;
-    let secs = 0;
-    let currentSeconds = 0;
-    let currentMinutes = 0;
-    let timer;
-    let start = false;
-    let pause = 0;
-    let music0;
-    let stoptime;
-    display(arr1);
-    load();
-
-    function play() {
-        music0 = 0;
-        displaypause.style.display = "none";
-        button_pause.style.display = "block";
-        displaymusic.style.display = "none"
-        start = true;
-        amthanhnen.play()
-        amthanhnen.addEventListener("ended", function () {
-            amthanhnen.play()
-        })
-        mixpieces = shufflepieces(arr1);
-        display(arr1)
-        beginTime();
-
-    }
-
-    function beginTime() {
-        count = 0;
-        secs = 0;
-        currentSeconds = 0;
-        currentMinutes = 0;
-        clearInterval(stoptime)
-        intervalTime();
-
-    }
-
-    function contineTime() {
-        intervalTime()
-    }
-
-    function intervalTime() {
-        if (start) {
-            currentMinutes = Math.floor(secs / 60);
-            currentSeconds = secs % 60;
-
-            if (currentMinutes <= 9) {
-                currentMinutes = "0" + currentMinutes;
-            }
-
-            if (currentSeconds <= 9) {
-                currentSeconds = "0" + currentSeconds;
-            }
-
-            secs++;
-            document.getElementById("time").innerHTML = currentMinutes + ":" + currentSeconds;
-            document.getElementById("count").innerHTML = count;
-            stoptime = setTimeout('intervalTime()', 1000);
-        }
-    }
-
-    function dung() {
-
-        if (pause % 2 === 0) {
-            start = false;
-            amthanhnen.pause();
-            pause++;
-            displaypause.style.display = "block"
-        } else {
-            start = true;
-            amthanhnen.play()
-            pause++;
-            displaypause.style.display = "none"
-            contineTime();
-        }
-    }
-
-    function music() {
-        if (music0 % 2 === 0) {
-            amthanhnen.pause();
-            displaymusic.style.display = "block";
-            music0++;
-        } else {
-            amthanhnen.play();
-            displaymusic.style.display = "none";
-            music0++;
-        }
-    }
-
-    function musicmove() {
-        if (music0 % 2 === 0) {
-            moveimage.play()
-        }
-    }
-
-    function shufflepieces(arr) {
-        for (let a = 0; a < 100; a++) {
-            let row;
-            let col;
-            for (let i = 0; i < arr.length; i++) {
-                for (let j = 0; j < arr[i].length; j++) {
-                    if (arr[i][j] === "") {
-                        row = i;
-                        col = j;
-                    }
-                }
-            }
-
-            let index = Math.floor(Math.random() * 4);
-            /*  index=0    lên
-            index=1    xuống
-            index=2    trái
-            index=3    phải
-         */
-            if (index === 0) {
-                if (row > 0) {                      // Move up
-                    arr[row][col] = arr[row - 1][col];
-                    arr[row - 1][col] = "";
-                }
-            }
-            if (index === 1) {
-                if (row !== arr.length - 1 && row < arr.length) {          // Move down
-                    arr[row][col] = arr[row + 1][col];
-                    arr[row + 1][col] = "";
-                }
-            }
-            if (index === 2) {
-                if (col > 0) {                   // Move left
-                    arr[row][col] = arr[row][col - 1];
-                    arr[row][col - 1] = "";
-                }
-            }
-            if (index === 3) {
-                if (col < arr[row].length - 1) {      // Move right
-                    arr[row][col] = arr[row][col + 1];
-                    arr[row][col + 1] = "";
-                }
-            }
-        }
-        return arr;
-    }
-
-    function display(arr) {
-        let anh = ""
-        for (let i = 0; i < arr.length; i++) {
-            anh += "<tr>"
-            for (let j = 0; j < arr[i].length; j++) {
-                if (arr[i][j] === "") {
-                    anh += "<td><img class='pieces' src=\"img/img-white.jpg\" height='120' width='120'/></td>";
-                    continue;
-                }
-                const id = i + "," + j;
-                anh += "<td><img onclick='move(arr1,event)' class='pieces' id='" + id + "' src='" + arr[i][j] + "' width='120' height='120' alt='Load....'></td>"
-            }
-            anh += "</tr>"
-        }
-        document.getElementById("display").innerHTML = anh;
-    }
-
-
-    function move(arr, event) {
-        if (start) {
-            let row;
-            let col;
-            let pieces = event.target;
-            let idpieces = pieces.getAttribute("id");
-            let arrid = idpieces.split(",");
-            row = parseInt(arrid[0]);
-            col = parseInt(arrid[1]);
-            if (arr[row][col + 1] === "" && col < arr[row].length) {      // Move right
-                arr[row][col + 1] = arr[row][col];
-                arr[row][col] = "";
-                display(arr);
-                show_count()
-                checkwin();
-                musicmove()
-                return;
-            }
-
-            if (arr[row][col - 1] === "" && col > 0) {                   // Move left
-                arr[row][col - 1] = arr[row][col];
-                arr[row][col] = "";
-                display(arr);
-                show_count();
-                checkwin();
-                musicmove();
-                return;
-            }
-            if (row !== arr.length - 1 && arr[row + 1][col] === "" && row < arr.length) {          // Move down
-                arr[row + 1][col] = arr[row][col];
-                arr[row][col] = "";
-                display(arr);
-                show_count();
-                checkwin();
-                musicmove();
-                return;
-            }
-            if (row > 0 && arr[row - 1][col] === "") {                      // Move up
-                arr[row - 1][col] = arr[row][col];
-                arr[row][col] = "";
-                display(arr);
-                show_count();
-                checkwin();
-                musicmove();
-            }
-        }
-
-    }
-
-    function checkwin() {
-        let check = true;
-        let index;
-        let src;
-        let allsrcpieces = []                   //mảng chứa src đã được cắt
-        let allpieces = document.querySelector("#display").querySelectorAll("img");    //lấy ảnh trong bảng
-        let srcArr = [];                     //mảng chứa src của tất cả mảnh ghép
-        for (let i = 0; i < allpieces.length; i++) {
-            srcArr.push(allpieces[i].src)
-        }
-
-        for (let i = 0; i < srcArr.length; i++) {
-            index = srcArr[i].indexOf("img")
-            src = srcArr[i].slice(index);
-            allsrcpieces.push(src);
-
-        }
-        for (let i = 0; i < allsrcpieces.length - 1; i++) {
-            if (allsrcpieces[i] !== flatarr1[i]) {
-                check = false;
-                break;
-            }
-        }
-        if (check) {
-            clearInterval(stoptime)
-            show_win()
-        }
-    }
-
-    function show_win() {
-        canvas.style.zIndex = 1;
-        table.style.zIndex = 0;
-        amthanhwin.play();
-        amthanhnen.pause();
-        button_pause.style.display = "none"
-        display(arr2);
-        hieuung();
-    }
-
-    function show_count() {
-        count++;
-        document.getElementById("count").innerHTML = count;
-    }
-
-
-    function hieuung() {
-        let gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, "#FF0000");
-        gradient.addColorStop(0.1, "#FF8C00")
-        gradient.addColorStop(0.2, "#7CFC00")
-        gradient.addColorStop(0.3, "#00FFFF")
-        gradient.addColorStop(0.4, "#00BFFF")
-        gradient.addColorStop(0.5, "#BA55D3")
-        gradient.addColorStop(0.6, "#FAF0E6")
-        gradient.addColorStop(0.7, "#F4A460")
-        gradient.addColorStop(0.8, "#000000")
-        let x = -250;
-        let y = 1500;
-        let z1 = -15;
-        let z2 = 1475
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "100px Arial";
-            ctx.fillStyle = gradient;
-            ctx.fillText("YOU", x, 250);
-            ctx.fillText("WIN!", y, 250);
-            ctx.fillText("Time:", x, 350);
-            ctx.fillText(currentMinutes + ":" + currentSeconds, y, 350)
-            ctx.fillText("Count:", x, 450);
-            ctx.fillText("   " + count, y, 450);
-            ctx.beginPath();
-            ctx.arc(z1, 550, 25, 3 * Math.PI / 2, Math.PI / 2, true);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(z2, 550, 25, 3 * Math.PI / 2, Math.PI / 2);
-            ctx.fillStyle = gradient
-            ctx.fill()
-            x += 5;
-            y -= 5;
-            z1 += 5;
-            z2 -= 5;
-            if (x === 490) {
-                clearInterval(stop);
-                ctx.clearRect(695, 525, 70, 70);
-                ctx.fillStyle = "#00FFFF";
-                ctx.fillRect(700, 525, 60, 40);
-                ctx.fillStyle = "black";
-                ctx.font = "20px Arial";
-                ctx.fillText("EXIT", 710, 553)
-            }
-
-        }
-
-        let stop = setInterval(draw, 20);
-
-    }
-
-    function load() {
-        canvas.addEventListener("click", function (event) {
-            const x = event.clientX - canvas.offsetLeft;
-            const y = event.clientY - canvas.offsetTop;
-            if (x >= 700 && x <= 760 && y >= 525 && y <= 565) {
-                window.location.reload();
-            }
-        })
-    }
-
-    let y1 = -400;
-    let y2 = 773;
-
-    function eventstart() {
-        let imgwelcome1 = new Image();
-        let imgwelcome2 = new Image();
-        imgwelcome1.src = "img/welcome3.jpg";
-        imgwelcome2.src = "img/welcome4.jpg";
-        y1 += 1;
-        y2 -= 1;
-        if (y1 === 2) {
-            clearTimeout(stopwelcome)
-        }
-        imgwelcome1.onload = function () {
-            ctx.drawImage(imgwelcome1, 0, y1, 1536, 372)
-        }
-        imgwelcome2.onload = function () {
-            ctx.drawImage(imgwelcome2, 0, y2, 1536, 372)
-        }
-        console.log(y1, y2);
-        let stopwelcome = setTimeout(eventstart, 10);
-        canvas.addEventListener("click", function (event) {
-            table.style.display = "block"
-        })
-
-    }
-
-    setTimeout(eventstart, 10)
-
-</script>
-<script>
-
-
-    /*  function moveup(arr) {
-       for (let i=0;i<arr.length;i++) {
-           for (let j=0;j<arr[i].length;j++) {
-               if (i<arr.length&&arr[i][j]==="") {
-                   arr[i][j]=arr[i+1][j];
-                   arr[i+1][j]="";
-                   break;
-               }
-           }
-       }
-      display(arr)
-   }
-   function movedown(arr) {
-       for (let i=0;i<arr.length;i++) {
-           for (let j=0;j<arr[i].length;j++) {
-               if (i>0&&arr[i][j]==="") {
-                   arr[i][j]=arr[i-1][j];
-                   arr[i-1][j]="";
-                   break;
-               }
-           }
-       }
-       display(arr)
-   }
-   function moveright(arr) {
-       for (let i=0;i<arr.length;i++) {
-           for (let j=0;j<arr[i].length;j++) {
-               if (j>0&&arr[i][j]==="") {
-                   arr[i][j]=arr[i][j-1];
-                   arr[i][j-1]="";
-                   break;
-               }
-           }
-       }
-       display(arr1)
-   }
-   function moveleft(arr) {
-       for (let i=0;i<arr.length;i++) {
-           for (let j=0;j<arr[i].length;j++) {
-               if (j<arr[i].length&&arr[i][j]==="") {
-                   arr[i][j]=arr[i][j+1];
-                   arr[i][j+1]="";
-                   break;
-               }
-           }
-       }
-       display(arr1)
-   }
-   function move(evt) {
-       switch (evt.keyCode) {
-           case 37:
-               moveright(arr1);
-               break;
-           case 39:
-               moveleft(arr1);
-               break;
-           case 38:
-               moveup(arr1);
-               break;
-           case 40:
-               movedown(arr1);
-               break;
-       }
-   }
-   function docReady() {
-       window.addEventListener('keydown', move);
-   // }*/
-    //class char {
-    //      content;
-    //      sizechar;
-    //      x;
-    //      y;
-    //
-    //      constructor(content,sizechar,x,y){
-    //          this.content=content;
-    //          this.sizechar=sizechar;
-    //          this.x=x;
-    //          this.y=y;
-    //      }
-    //      draw () {
-    //          ctx.font=this.sizechar+ "px Arial";
-    //          ctx.fillText(this.content,this.x,this.y);
-    //      }
-    //      del() {
-    //          ctx.clearRect(this.x,this.y,canvas.width,canvas.height);
-    //      }
-    //  }
-    //  let you=new char("YOU",100,0,250);
-    //  let win=new char("WIN",100,1500,250);
-    //  let time=new char("TIME",100,0,350);
-    //  let number_Time=new char(currentMinutes+":"+currentSeconds,100,1500,350);
-    //  let count=new char("COUNT",100,0,450);
-    //  let number_count=new char(count,100,1500,450);
-    //  let exit_left=new char("EX",100,50,500);
-    //  let exit_right=new char("IT",100,1500,500);
-    //  let exit_center=new char("EXIT",100,725,500);
-    //  let arrchar=[you,win,time,number_Time,count,number_count,exit_left,exit_right,exit_center];
-
-</script>
-
-
+<script src="jscase.js"></script>
